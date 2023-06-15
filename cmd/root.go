@@ -30,6 +30,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/robertranjan/wiggle/lib"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -38,6 +39,18 @@ import (
 var cfgFile string
 var debug bool
 var l *logrus.Logger
+
+type Address struct {
+	Street  string
+	City    string
+	Country string
+}
+
+type Person struct {
+	Name    string
+	Age     int
+	Address Address
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -49,7 +62,19 @@ var rootCmd = &cobra.Command{
 	`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { fmt.Printf("main command... got a call") },
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("main command... got a call\n")
+		person := Person{
+			Name: "John Doe",
+			Age:  30,
+			Address: Address{
+				Street:  "123 Main Street",
+				City:    "New York",
+				Country: "USA",
+			},
+		}
+		fmt.Printf("flattened struct: %#v\n", lib.FlattenStruct(person, ""))
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
