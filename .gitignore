@@ -1,5 +1,5 @@
-{{APPNAME}}
 wiggle
 bin/
 /go-template
 /tmp
+/new-project/
