@@ -15,6 +15,20 @@ tasks:
     cmds:
       - task -l
 
+  diff-vs-tempate:
+    desc: "diff local files vs tempate/*"
+    cmds:
+      - |
+        shasum -a 256 $(fd -tf . \
+          --exclude='template' \
+          --exclude='bin' \
+          --exclude='wiggle.yaml' \
+          --exclude='Taskfile.yaml' \
+          --exclude='shasum.root') \
+          > shasum.root
+        cd template
+        shasum -c --ignore-missing -q ../shasum.root
+
   setup:
     desc: "setup project by changing name from: go-template to YourProject"
     cmds:
