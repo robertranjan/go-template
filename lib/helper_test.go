@@ -67,3 +67,45 @@ func Test_FlattenStruct(t *testing.T) {
 		})
 	}
 }
+
+func TestFixFloatPrecision(t *testing.T) {
+	type args struct {
+		f float64
+		p int
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantN   float64
+		wantErr bool
+	}{
+		{
+			name: "success case; expected result - rounding 1",
+			args: args{
+				f: 1.234567890,
+				p: 5,
+			},
+			wantN: 1.23457,
+		},
+		{
+			name: "success case; expected result - rounding 2",
+			args: args{
+				f: 1.234567890,
+				p: 2,
+			},
+			wantN: 1.23,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotN, err := FixFloatPrecision(tt.args.f, tt.args.p)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("FixFloatPrecision() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if gotN != tt.wantN {
+				t.Errorf("FixFloatPrecision() = %v, want %v", gotN, tt.wantN)
+			}
+		})
+	}
+}

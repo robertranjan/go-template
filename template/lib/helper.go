@@ -3,6 +3,7 @@ package lib
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 )
 
 func FlattenStruct(obj interface{}, prefix string) map[string]string {
@@ -35,4 +36,15 @@ func FlattenStruct(obj interface{}, prefix string) map[string]string {
 	}
 
 	return result
+}
+
+// FixFloatPrecision ajust the number of decimal points for a float64
+func FixFloatPrecision(f float64, p int) (n float64, err error) {
+	formatString := fmt.Sprintf("%%.%df", p)
+	strNum := fmt.Sprintf(formatString, f)
+	n, err = strconv.ParseFloat(strNum, 64)
+	if err != nil {
+		return n, fmt.Errorf("parsing float64 from %q failed: %v", strNum, err)
+	}
+	return n, nil
 }

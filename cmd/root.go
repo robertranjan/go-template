@@ -31,6 +31,7 @@ import (
 	"strings"
 
 	"github.com/robertranjan/wiggle/lib"
+	"github.com/robertranjan/wiggle/version"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -55,7 +56,7 @@ type Person struct {
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "wiggle",
-	Version: "1.0",
+	Version: version.Version,
 	Short:   "A brief description of your application: wiggle",
 	Long: `A longer description of application:
 	wiggle
