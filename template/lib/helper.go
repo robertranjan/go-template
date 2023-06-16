@@ -48,3 +48,12 @@ func FixFloatPrecision(f float64, p int) (n float64, err error) {
 	}
 	return n, nil
 }
+
+// IfaceToStrSlice converts []interface to []string
+func IfaceToStrSlice(ifaceSlice []interface{}) (str []string) {
+	reflectVal := reflect.ValueOf(ifaceSlice)
+	for i := 0; i < reflectVal.Len(); i++ {
+		str = append(str, fmt.Sprintf("%v", reflectVal.Index(i)))
+	}
+	return str
+}

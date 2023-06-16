@@ -109,3 +109,29 @@ func TestFixFloatPrecision(t *testing.T) {
 		})
 	}
 }
+
+func TestIfaceToStrSlice(t *testing.T) {
+	type args struct {
+		ifaceSlice []interface{}
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantStr []string
+	}{
+		{
+			name: "success case",
+			args: args{
+				ifaceSlice: []interface{}{"Robert", "148", 2192.5, true},
+			},
+			wantStr: []string{"Robert", "148", "2192.5", "true"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotStr := IfaceToStrSlice(tt.args.ifaceSlice); !reflect.DeepEqual(gotStr, tt.wantStr) {
+				t.Errorf("IfaceToStrSlice() = %v, want %v", gotStr, tt.wantStr)
+			}
+		})
+	}
+}
