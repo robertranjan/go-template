@@ -33,7 +33,8 @@ tasks:
     desc: "setup project by changing name from: go-template to YourProject"
     cmds:
       - |
-        export APPNAME=new-project
+        WORD=$(gofakeit word pronounobject)
+        export APPNAME="${WORD}"
         mkdir -p tmp/template
         FILES=($(fd -tf . template))
         for file in "${FILES[@]}" ; do \

@@ -23,17 +23,32 @@ tasks:
 
   build:
     desc: "build go project"
+    dir: "{{ default .USER_WORKING_DIR .WORK_DIR }}"
+    vars:
+      BIN: "{{default .APPNAME .BIN }}"
     cmds:
       - |
         go mod tidy
         gofmt -w .
         go build \
-          -o bin/${APPNAME} \
+          -o {{.BIN}} \
           -ldflags "
             -s -w
             -X github.com/robertranjan/${APPNAME}/version.Version={{.VERSION}}
             -X github.com/robertranjan/${APPNAME}/version.BuildDate={{.DATETIMESTAMP}}" \
           main.go
+
+  run:
+    desc: "run a go project"
+    dir: "{{ default .USER_WORKING_DIR .WORK_DIR }}"
+    vars:
+      TMP:
+        sh: basename {{.USER_WORKING_DIR}}
+      BIN_NAME: "bin/{{.TMP}}"
+    cmds:
+      - task: build
+        vars: { BIN: "{{.BIN_NAME}}" }
+      - "{{.USER_WORKING_DIR}}/{{.BIN_NAME}} {{.CLI_ARGS}}"
 
   install:
     desc: "install the binary to ~/go/bin"
