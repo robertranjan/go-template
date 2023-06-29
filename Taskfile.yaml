@@ -34,7 +34,7 @@ tasks:
     cmds:
       - |
         WORD=$(gofakeit word pronounobject)
-        export APPNAME="${WORD}"
+        export APPNAME="{{.PROJECT}}"
         mkdir -p tmp/template
         FILES=($(fd -tf . template))
         for file in "${FILES[@]}" ; do \
@@ -45,6 +45,10 @@ tasks:
         mv tmp/template ${APPNAME}
 
         tree ${APPNAME}
+    vars:
+      TMP:
+        sh: gofakeit word pronounobject
+      PROJECT: "{{default .TMP .CLI_ARGS}}"
 
   build:
     desc: "build go project"
